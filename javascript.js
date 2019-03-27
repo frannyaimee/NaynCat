@@ -30,66 +30,63 @@ document.getElementById("doge").addEventListener("click", function() {
 document.getElementById("loaf").addEventListener("click", function() {
   document.body.style.backgroundImage = "url('bg.png')"; 
   document.getElementById("loaf").style.display = "none";
-  showCats();
-  moveCats();
+  document.getElementById("dog").style.display= "none";
   audio.play();
-  setTimeout( function() { document.body.style.backgroundImage = "none", hideCats(), audio.pause(), audio.currentTime = 0
+  const litter = createLitter();
+  animateCats(litter);
+  setTimeout( function() { 
+    document.body.style.backgroundImage = "none", 
+    removeCats(litter),
+    audio.pause(),
+    audio.currentTime = 0
+    document.getElementById("dog").style.display= "block";
   },
-   8000);
+  10000);
 })
 
-// Show Cats upon clicking on dog loaf
-function showCats() {
-  document.getElementById("cat").innerHTML = "<img src='Cat.png'>";
-  document.getElementById("cat2").innerHTML = "<img src='Cat.png'>";
-  document.getElementById("cat3").innerHTML = "<img src='Cat.png'>";
-  document.getElementById("cat4").innerHTML = "<img src='Cat.png'>";
-  document.getElementById("cat5").innerHTML = "<img src='Cat.png'>";
-  document.getElementById("cat6").innerHTML = "<img src='Cat.png'>";
-  document.getElementById("cat7").innerHTML = "<img src='Cat.png'>";
+const body = document.getElementsByTagName('body')[0];
+
+function createCat() {
+ let cat = document.createElement("img");
+ cat.src = "Cat.png";
+ cat.style.position = "absolute";
+ cat.style.top = '-100px';
+ let left = Math.floor(parseInt(body.clientWidth) * Math.random());
+ left = left + 'px';
+ cat.style.left = left;
+ body.appendChild(cat);
+ return cat;
 }
 
-// Hide Cats after time has passed
-function hideCats() {
-  document.getElementById("cat").innerHTML = "";
-  document.getElementById("cat2").innerHTML = "";
-  document.getElementById("cat3").innerHTML = "";
-  document.getElementById("cat4").innerHTML = "";
-  document.getElementById("cat5").innerHTML = "";
-  document.getElementById("cat6").innerHTML = "";
-  document.getElementById("cat7").innerHTML = "";
-}
-
-// Moving of cats from top to bottom right
-function moveCats() {
-  var elem = document.getElementById("cat");
-  var elem2 = document.getElementById("cat2");
-  var elem3 = document.getElementById("cat3");
-  var elem4 = document.getElementById("cat4");
-  var elem5 = document.getElementById("cat5");
-  var elem6 = document.getElementById("cat6");
-  var elem7 = document.getElementById("cat7");
-  var pos = 0;
-  var id = setInterval(frame, 3);
-  function frame() {
-    if (pos === 800 && pos2 === 800 && pos3 === 800 && pos4 === 800 && pos5 === 800 && pos6 === 800 && pos7 === 800) {
-      clearInterval(id);
-    } else {
-      pos++;
-      elem.style.top = pos + "px"; 
-      elem.style.left = pos + "px"; 
-      elem2.style.top = pos + "px"; 
-      elem2.style.left = pos + "px";
-      elem3.style.top = pos + "px"; 
-      elem3.style.left = pos + "px";
-      elem4.style.top = pos + "px"; 
-      elem4.style.left = pos + "px";
-      elem5.style.top = pos + "px"; 
-      elem5.style.left = pos + "px";
-      elem6.style.top = pos + "px"; 
-      elem6.style.left = pos + "px";
-      elem7.style.top = pos + "px"; 
-      elem7.style.left = pos + "px";
-    }
+function createLitter() {
+  var litterCats = [];
+  var numberCats = Math.floor(Math.random() * 80);
+  for (let i = 0; i < numberCats; i++) {
+    litterCats[i] = createCat();
   }
+  return litterCats;
+}
+
+function animateCats(allCats) {
+
+  allCats.forEach(function (cat) {
+    let randomTarget = Math.floor(Math.random() * 100); //Random number between 0 and 99
+    let randomTop = Math.floor(Math.random() * 100);
+    console.log(randomTarget);
+    let rate = Math.floor(Math.random() * 1000 + 3000)
+    cat.animate([
+    { transform: 'translateY(0px) translateX('+ randomTop + 'px)'}, 
+    {transform: 'translateY(100vh) translateX('+ randomTarget + 'px)' }
+    ], 
+    { duration: rate,
+      iterations: 9,
+      delay: Math.random() * 5000
+    });
+  });
+}
+
+function removeCats(allCats){
+  allCats.forEach( function (cat) {
+    cat.remove();
+  });
 }
