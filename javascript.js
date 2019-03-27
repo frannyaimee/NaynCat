@@ -6,10 +6,10 @@ document.getElementById("doge").onmouseleave = function() {hideIcon()};
 function showIcon() { doge.innerHTML = "&nbsp; &nbsp; <i class='fas fa-dog'></i> &nbsp; &nbsp;"; }
 function hideIcon() { doge.innerHTML = "Woof!"; }
 
+// Create Audio variable
 const audio = new Audio("nyancat.mp3");
 
-// Hide and Show Loaf
-
+// Hide and Show Dog Loaf
 function myFunction() {
   var x = document.getElementById("loaf");
   if (x.style.display === "block") {
@@ -19,27 +19,22 @@ function myFunction() {
   }
 }
 
-// Click Button -> Dog Loaf Appears and Disappears
-
-document.getElementById("doge").addEventListener("click", function() {
-  document.getElementById("loaf").innerHTML = "<img src='dog.png'>";
-})
-
 // Click Dog Loaf -> Change Background Image and Make Dog Disappear--> background back to normal after set time
-
+// Create and Animate cats in litter
 document.getElementById("loaf").addEventListener("click", function() {
-  document.body.style.backgroundImage = "url('bg.png')"; 
-  document.getElementById("loaf").style.display = "none";
-  document.getElementById("dog").style.display= "none";
-  audio.play();
   const litter = createLitter();
+  document.body.style.backgroundImage = "url('bg.gif')"; 
+  document.getElementById("loaf").style.display = "none";
+  document.getElementById("dog").style.display = "none";
+  audio.play();
+  createLitter();
   animateCats(litter);
   setTimeout( function() { 
     document.body.style.backgroundImage = "none", 
     removeCats(litter),
     audio.pause(),
     audio.currentTime = 0
-    document.getElementById("dog").style.display= "block";
+    document.getElementById("dog").style.display = "block";
   },
   10000);
 })
@@ -60,7 +55,7 @@ function createCat() {
 
 function createLitter() {
   var litterCats = [];
-  var numberCats = Math.floor(Math.random() * 80);
+  var numberCats = Math.floor((Math.random() * 80 ) + 10 );
   for (let i = 0; i < numberCats; i++) {
     litterCats[i] = createCat();
   }
@@ -68,20 +63,15 @@ function createLitter() {
 }
 
 function animateCats(allCats) {
-
   allCats.forEach(function (cat) {
-    let randomTarget = Math.floor(Math.random() * 100); //Random number between 0 and 99
-    let randomTop = Math.floor(Math.random() * 100);
-    console.log(randomTarget);
-    let rate = Math.floor(Math.random() * 1000 + 3000)
-    cat.animate([
-    { transform: 'translateY(0px) translateX('+ randomTop + 'px)'}, 
-    {transform: 'translateY(100vh) translateX('+ randomTarget + 'px)' }
-    ], 
-    { duration: rate,
-      iterations: 9,
-      delay: Math.random() * 5000
-    });
+    let randomTarget = Math.floor(parseInt(body.clientWidth) * Math.random()); //Random number spanning across the device width
+    let rate = Math.floor(Math.random() * 10);  //Random number b/n 0-9 for rate
+    let rotate = Math.floor(Math.random() * 361) //Random number between 0-360 for rotation
+    cat.style.transition = 'all ' + rate + 's';
+    cat.style.top = '100vh';
+    cat.style.transform= 'rotate(' + rotate + 'deg)';
+    let originalLeft = parseInt(cat.style.left);
+    cat.style.left = originalLeft + randomTarget + 'px';
   });
 }
 
@@ -90,3 +80,4 @@ function removeCats(allCats){
     cat.remove();
   });
 }
+

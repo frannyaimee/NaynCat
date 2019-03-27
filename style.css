@@ -1,21 +1,25 @@
 body{
 	position: relative;
+	overflow: hidden;
 }
 .wrapper {
 	text-align:center;
 	margin: auto;
-}
-#doge {
-	color: #d1a14c;
+	display: flex;
 }
 button {
 	margin: auto;
     font-size: 50px;
-
+    margin-top: 25%;
+    color: #d1a14c;
+}
+#loaf {
+	position: absolute;
+	top: 90%;
+	left: 3%;
 }
 i {
 	margin: auto;
 	text-align: center;
-	font-size: 50px;
-	color: #d1a14c;
+	font-size: 42px;
 }
